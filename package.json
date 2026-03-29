@@ -10,6 +10,7 @@
     "check:biome": "biome ci",
     "check:ls-lint": "ls-lint -config ls-lint.yaml",
     "check:package": "sort-package-json --check",
+    "check:type": "tsc --noEmit",
     "fmt": "npm-run-all2 --parallel fmt:*",
     "fmt:biome": "biome check --write --unsafe",
     "fmt:package": "sort-package-json",
