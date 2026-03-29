@@ -29,7 +29,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>reading-vimrc-android</Text>
+      <Text style={styles.title}>reading-vimrc-mobile</Text>
 
       <TextInput
         style={styles.input}
