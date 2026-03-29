@@ -9,7 +9,7 @@ export function buildTree(
   for (const item of items) {
     const nodeType: NodeType = item.type === "tree" ? "directory" : "file";
     const segments = item.path.split("/");
-    const name = segments[segments.length - 1];
+    const name = segments.at(-1) ?? item.path;
 
     const node: TreeNode = {
       name,

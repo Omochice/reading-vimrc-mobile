@@ -10,6 +10,7 @@
     "check:biome": "biome ci",
     "check:ls-lint": "ls-lint -config ls-lint.yaml",
     "check:package": "sort-package-json --check",
+    "check:type": "tsc --noEmit",
     "fmt": "npm-run-all2 --parallel fmt:*",
     "fmt:biome": "biome check --write --unsafe",
     "fmt:package": "sort-package-json",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
     "@ls-lint/ls-lint": "^2.3.1",
+    "@tsconfig/strictest": "^2.0.8",
     "@types/react": "^19.2.14",
     "npm-run-all2": "^8.0.4",
     "sort-package-json": "^3.6.1",
