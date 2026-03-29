@@ -6,13 +6,13 @@
   "main": "expo-router/entry",
   "scripts": {
     "android": "expo start --android",
+    "fmt": "npm-run-all2 --parallel fmt:*",
+    "fmt:biome": "biome check --write --unsafe",
+    "fmt:package": "sort-package-json",
     "ios": "expo start --ios",
     "start": "expo start",
     "test": "vitest run",
-    "web": "expo start --web",
-    "fmt": "npm-run-all2 --parallel fmt:*",
-    "fmt:package": "sort-package-json",
-    "fmt:biome": "biome check --write --unsafe"
+    "web": "expo start --web"
   },
   "dependencies": {
     "expo": "^55.0.9",
