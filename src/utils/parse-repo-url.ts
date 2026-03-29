@@ -10,11 +10,11 @@ export type ParsedRepo = {
  */
 export function parseRepoUrl(input: string): ParsedRepo | null {
   const shorthand = input.match(/^(?<owner>[^/]+)\/(?<repo>[^/]+)$/);
-  if (
-    shorthand?.groups?.owner !== undefined &&
-    shorthand.groups.repo !== undefined
-  ) {
-    return { owner: shorthand.groups.owner, repo: shorthand.groups.repo };
+  if (shorthand?.groups) {
+    const { owner, repo } = shorthand.groups;
+    if (owner !== undefined && repo !== undefined) {
+      return { owner, repo };
+    }
   }
 
   try {
@@ -23,10 +23,13 @@ export function parseRepoUrl(input: string): ParsedRepo | null {
       return null;
     }
     const match = parsed.pathname.match(/^\/(?<owner>[^/]+)\/(?<repo>[^/]+)$/);
-    if (match?.groups?.owner === undefined || match.groups.repo === undefined) {
-      return null;
+    if (match?.groups) {
+      const { owner, repo } = match.groups;
+      if (owner !== undefined && repo !== undefined) {
+        return { owner, repo };
+      }
     }
-    return { owner: match.groups.owner, repo: match.groups.repo };
+    return null;
   } catch {
     return null;
   }
