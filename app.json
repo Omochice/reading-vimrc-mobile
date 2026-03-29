@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "reading-vimrc-android",
+    "slug": "reading-vimrc-android",
+    "version": "1.0.0",
+    "scheme": "reading-vimrc-android",
+    "platforms": ["android"],
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": ["expo-router"]
+  }
+}
