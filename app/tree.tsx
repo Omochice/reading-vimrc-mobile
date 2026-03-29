@@ -11,26 +11,7 @@ import * as Clipboard from "expo-clipboard";
 import { useGitHubTree } from "../src/hooks/useGitHubTree";
 import { FileTree } from "../src/components/FileTree";
 import { buildCommand } from "../src/utils/buildCommand";
-import type { TreeNode } from "../src/types";
-
-/**
- * Collect file paths in DFS order so the command matches the visual tree order.
- */
-function collectDfsFilePaths(
-  nodes: TreeNode[],
-  selected: Set<string>,
-): string[] {
-  const result: string[] = [];
-  for (const node of nodes) {
-    if (node.type === "file" && selected.has(node.path)) {
-      result.push(node.path);
-    }
-    if (node.type === "directory") {
-      result.push(...collectDfsFilePaths(node.children, selected));
-    }
-  }
-  return result;
-}
+import { collectFilePaths } from "../src/utils/collectFilePaths";
 
 export default function TreeScreen() {
   const { owner, repo } = useLocalSearchParams<{
@@ -41,7 +22,7 @@ export default function TreeScreen() {
   const [selectedPaths, setSelectedPaths] = useState<Set<string>>(new Set());
 
   const handleCopy = useCallback(async () => {
-    const orderedPaths = collectDfsFilePaths(tree, selectedPaths);
+    const orderedPaths = collectFilePaths(tree).filter((p) => selectedPaths.has(p));
     const command = buildCommand(owner, repo, branch, orderedPaths);
     await Clipboard.setStringAsync(command);
   }, [tree, selectedPaths, owner, repo, branch]);
