@@ -17,7 +17,7 @@ export default function Index() {
   const handleSubmit = () => {
     const result = parseRepoUrl(url);
     if (result === null) {
-      setError("Invalid GitHub repository URL. Expected format: https://github.com/{owner}/{repo}");
+      setError("Invalid input. Expected: https://github.com/{owner}/{repo} or {owner}/{repo}");
       return;
     }
     setError("");
@@ -33,7 +33,7 @@ export default function Index() {
 
       <TextInput
         style={styles.input}
-        placeholder="https://github.com/owner/repo"
+        placeholder="owner/repo"
         value={url}
         onChangeText={(text) => {
           setUrl(text);
