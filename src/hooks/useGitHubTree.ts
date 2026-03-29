@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import type {
-  GitTreeResponse,
-  RepoResponse,
-  TreeNode,
-} from "../types";
+import type { GitTreeResponse, RepoResponse, TreeNode } from "../types";
 import { buildTree } from "../utils/buildTree";
 
 interface UseGitHubTreeResult {
@@ -54,12 +50,16 @@ export function useGitHubTree(
         }
         const treeData: GitTreeResponse = await treeRes.json();
 
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         setBranch(defaultBranch);
         setTree(buildTree(treeData.tree));
       } catch (err) {
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
         setError(
           err instanceof Error ? err.message : "An unknown error occurred",
         );

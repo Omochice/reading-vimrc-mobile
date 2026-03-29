@@ -6,9 +6,15 @@
   "main": "expo-router/entry",
   "scripts": {
     "android": "expo start --android",
+    "check": "npm-run-all2 --parallel check:*",
+    "check:biome": "biome ci",
+    "check:package": "sort-package-json --check",
+    "fmt": "npm-run-all2 --parallel fmt:*",
+    "fmt:biome": "biome check --write --unsafe",
+    "fmt:package": "sort-package-json",
     "ios": "expo start --ios",
     "start": "expo start",
-    "test": "vitest",
+    "test": "vitest run",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -26,7 +32,10 @@
     "react-native-web": "^0.21.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.9",
     "@types/react": "^19.2.14",
+    "npm-run-all2": "^8.0.4",
+    "sort-package-json": "^3.6.1",
     "typescript": "^5.9.3",
     "vitest": "^3.2.1"
   },

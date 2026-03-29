@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { buildTree } from "./buildTree";
+import { describe, expect, it } from "vitest";
 import type { GitTreeItem, TreeNode } from "../types";
+import { buildTree } from "./buildTree";
 
 describe("buildTree", () => {
   it("returns a single file node for a single blob at root", () => {
@@ -47,8 +47,8 @@ describe("buildTree", () => {
     const result = buildTree(items);
     const rootNames = result.map((n) => n.name);
     const srcChildNames = result
-      .find((n) => n.name === "src")!
-      .children.map((n) => n.name);
+      .find((n) => n.name === "src")
+      ?.children.map((n) => n.name);
 
     expect(rootNames).toEqual(["CONTRIBUTING.md", "README.md", "src"]);
     expect(srcChildNames).toEqual(["alpha.ts", "zebra.ts"]);
