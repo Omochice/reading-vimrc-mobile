@@ -22,4 +22,19 @@ describe("parseRepoUrl", () => {
   it("returns null for extra path segments", () => {
     expect(parseRepoUrl("https://github.com/owner/repo/tree/main")).toBeNull();
   });
+
+  it("extracts owner and repo from owner/repo shorthand", () => {
+    expect(parseRepoUrl("vim-jp/reading-vimrc")).toEqual({
+      owner: "vim-jp",
+      repo: "reading-vimrc",
+    });
+  });
+
+  it("returns null for shorthand with extra segments", () => {
+    expect(parseRepoUrl("owner/repo/extra")).toBeNull();
+  });
+
+  it("returns null for a single word without slash", () => {
+    expect(parseRepoUrl("owner")).toBeNull();
+  });
 });
