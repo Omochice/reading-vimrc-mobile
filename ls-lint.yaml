@@ -1,0 +1,8 @@
+ls:
+  .ts: kebab-case
+  .tsx: kebab-case
+
+ignore:
+  - .git
+  - node_modules
+  - app/_layout.tsx
