@@ -17,7 +17,7 @@ export default function Index() {
   const handleSubmit = () => {
     const result = parseRepoUrl(url);
     if (result === null) {
-      setError("Invalid input. Expected: https://github.com/{owner}/{repo} or {owner}/{repo}");
+      setError("Invalid input text. Expected: https://github.com/{owner}/{repo} or {owner}/{repo}");
       return;
     }
     setError("");
