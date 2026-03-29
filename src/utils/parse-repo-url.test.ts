@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseRepoUrl } from "./parseRepoUrl";
+import { parseRepoUrl } from "./parse-repo-url";
 
 describe("parseRepoUrl", () => {
   it("extracts owner and repo from a valid GitHub URL", () => {

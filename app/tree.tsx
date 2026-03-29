@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import * as Clipboard from "expo-clipboard";
-import { useGitHubTree } from "../src/hooks/useGitHubTree";
-import { FileTree } from "../src/components/FileTree";
-import { buildCommand } from "../src/utils/buildCommand";
-import { collectFilePaths } from "../src/utils/collectFilePaths";
+import { useGitHubTree } from "../src/hooks/use-git-hub-tree";
+import { FileTree } from "../src/components/file-tree";
+import { buildCommand } from "../src/utils/build-command";
+import { collectFilePaths } from "../src/utils/collect-file-paths";
 
 export default function TreeScreen() {
   const { owner, repo } = useLocalSearchParams<{
