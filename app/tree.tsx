@@ -1,0 +1,126 @@
+import { useState, useCallback } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import * as Clipboard from "expo-clipboard";
+import { useGitHubTree } from "../hooks/useGitHubTree";
+import { FileTree } from "../components/FileTree";
+import { buildCommand } from "../utils/buildCommand";
+import type { TreeNode } from "../types";
+
+/**
+ * Collect file paths in DFS order so the command matches the visual tree order.
+ */
+function collectDfsFilePaths(
+  nodes: TreeNode[],
+  selected: Set<string>,
+): string[] {
+  const result: string[] = [];
+  for (const node of nodes) {
+    if (node.type === "file" && selected.has(node.path)) {
+      result.push(node.path);
+    }
+    if (node.type === "directory") {
+      result.push(...collectDfsFilePaths(node.children, selected));
+    }
+  }
+  return result;
+}
+
+export default function TreeScreen() {
+  const { owner, repo } = useLocalSearchParams<{
+    owner: string;
+    repo: string;
+  }>();
+  const { tree, branch, isLoading, error } = useGitHubTree(owner, repo);
+  const [selectedPaths, setSelectedPaths] = useState<Set<string>>(new Set());
+
+  const handleCopy = useCallback(async () => {
+    const orderedPaths = collectDfsFilePaths(tree, selectedPaths);
+    const command = buildCommand(owner, repo, branch, orderedPaths);
+    await Clipboard.setStringAsync(command);
+  }, [tree, selectedPaths, owner, repo, branch]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.error}>{error}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <FileTree
+        tree={tree}
+        selectedPaths={selectedPaths}
+        onSelectedPathsChange={setSelectedPaths}
+      />
+      <Pressable
+        style={[
+          styles.copyButton,
+          selectedPaths.size === 0 && styles.copyButtonDisabled,
+        ]}
+        onPress={handleCopy}
+        disabled={selectedPaths.size === 0}
+      >
+        <Text
+          style={[
+            styles.copyButtonText,
+            selectedPaths.size === 0 && styles.copyButtonTextDisabled,
+          ]}
+        >
+          Copy
+        </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  error: {
+    color: "red",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  copyButton: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 14,
+    alignItems: "center",
+    margin: 16,
+    borderRadius: 8,
+  },
+  copyButtonDisabled: {
+    backgroundColor: "#ccc",
+  },
+  copyButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  copyButtonTextDisabled: {
+    color: "#999",
+  },
+});
