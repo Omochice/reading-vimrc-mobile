@@ -10,41 +10,16 @@ interface FileTreeProps {
   onSelectedPathsChange: (paths: Set<string>) => void;
 }
 
-function collectFilePaths(node: TreeNodeType): string[] {
-  if (node.type === "file") return [node.path];
-  return node.children.flatMap(collectFilePaths);
-}
-
-function collectDirPaths(nodes: TreeNodeType[]): string[] {
-  const paths: string[] = [];
+function collectDirPaths(nodes: TreeNodeType[], result: string[] = []): string[] {
   for (const node of nodes) {
     if (node.type === "directory") {
-      paths.push(node.path);
-      paths.push(...collectDirPaths(node.children));
+      result.push(node.path);
+      collectDirPaths(node.children, result);
     }
   }
-  return paths;
+  return result;
 }
 
-function getCheckState(
-  node: TreeNodeType,
-  selectedPaths: Set<string>,
-): CheckState {
-  if (node.type === "file") {
-    return selectedPaths.has(node.path) ? "checked" : "unchecked";
-  }
-  const descendants = collectFilePaths(node);
-  if (descendants.length === 0) return "unchecked";
-  const selectedCount = descendants.filter((p) => selectedPaths.has(p)).length;
-  if (selectedCount === 0) return "unchecked";
-  if (selectedCount === descendants.length) return "checked";
-  return "indeterminate";
-}
-
-/**
- * Top-level file tree component managing selection and collapse state.
- * All directories are collapsed by default.
- */
 export function FileTree({
   tree,
   selectedPaths,
@@ -57,6 +32,31 @@ export function FileTree({
   const [collapsedPaths, setCollapsedPaths] =
     useState<Set<string>>(initialCollapsed);
 
+  // Precompute descendant file paths per directory to avoid O(n²) per render
+  const descendantMap = useMemo(() => {
+    const map = new Map<string, string[]>();
+    function walk(node: TreeNodeType): string[] {
+      if (node.type === "file") return [node.path];
+      const paths = node.children.flatMap(walk);
+      map.set(node.path, paths);
+      return paths;
+    }
+    for (const node of tree) walk(node);
+    return map;
+  }, [tree]);
+
+  function getCheckState(node: TreeNodeType): CheckState {
+    if (node.type === "file") {
+      return selectedPaths.has(node.path) ? "checked" : "unchecked";
+    }
+    const descendants = descendantMap.get(node.path) ?? [];
+    if (descendants.length === 0) return "unchecked";
+    const selectedCount = descendants.filter((p) => selectedPaths.has(p)).length;
+    if (selectedCount === 0) return "unchecked";
+    if (selectedCount === descendants.length) return "checked";
+    return "indeterminate";
+  }
+
   function handleToggleSelect(node: TreeNodeType) {
     const next = new Set(selectedPaths);
     if (node.type === "file") {
@@ -66,7 +66,7 @@ export function FileTree({
         next.add(node.path);
       }
     } else {
-      const descendants = collectFilePaths(node);
+      const descendants = descendantMap.get(node.path) ?? [];
       const allSelected = descendants.every((p) => next.has(p));
       if (allSelected) {
         for (const p of descendants) next.delete(p);
@@ -96,7 +96,7 @@ export function FileTree({
         node={node}
         depth={depth}
         isCollapsed={collapsedPaths.has(node.path)}
-        checkState={getCheckState(node, selectedPaths)}
+        checkState={getCheckState(node)}
         onToggleSelect={handleToggleSelect}
         onToggleCollapse={handleToggleCollapse}
         renderNode={renderNode}
