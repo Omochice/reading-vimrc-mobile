@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { GitTreeItem, TreeNode } from "../types";
-import { buildTree } from "./buildTree";
+import { buildTree } from "./build-tree";
 
 describe("buildTree", () => {
   it("returns a single file node for a single blob at root", () => {

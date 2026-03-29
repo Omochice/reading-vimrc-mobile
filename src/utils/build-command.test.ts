@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildCommand } from "./buildCommand";
+import { buildCommand } from "./build-command";
 
 describe("buildCommand", () => {
   it("returns command string with single file URL", () => {

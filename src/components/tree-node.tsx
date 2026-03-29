@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import type { TreeNode as TreeNodeType } from "../types";
-import { CheckState, TriStateCheckbox } from "./TriStateCheckbox";
+import { CheckState, TriStateCheckbox } from "./tri-state-checkbox";
 
 const INDENT_PX = 20;
 

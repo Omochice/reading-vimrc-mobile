@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { GitTreeResponse, RepoResponse, TreeNode } from "../types";
-import { buildTree } from "../utils/buildTree";
+import { buildTree } from "../utils/build-tree";
 
 type UseGitHubTreeResult = {
   tree: TreeNode[];

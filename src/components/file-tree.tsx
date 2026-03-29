@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView } from "react-native";
 import type { TreeNode as TreeNodeType } from "../types";
-import type { CheckState } from "./TriStateCheckbox";
-import { TreeNode } from "./TreeNode";
+import type { CheckState } from "./tri-state-checkbox";
+import { TreeNode } from "./tree-node";
 
 interface FileTreeProps {
   tree: TreeNodeType[];
