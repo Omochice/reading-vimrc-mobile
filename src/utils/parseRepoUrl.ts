@@ -1,7 +1,7 @@
-export interface ParsedRepo {
+export type ParsedRepo = {
   owner: string;
   repo: string;
-}
+};
 
 /**
  * Parse a GitHub repository identifier and extract the owner and repo name.

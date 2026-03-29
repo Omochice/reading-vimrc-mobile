@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import type { GitTreeResponse, RepoResponse, TreeNode } from "../types";
 import { buildTree } from "../utils/buildTree";
 
-interface UseGitHubTreeResult {
+type UseGitHubTreeResult = {
   tree: TreeNode[];
   branch: string;
   isLoading: boolean;
   error: string | null;
-}
+};
 
 /**
  * Fetch the default branch and recursive file tree for a GitHub repository,
