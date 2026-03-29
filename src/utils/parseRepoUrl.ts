@@ -17,8 +17,7 @@ export function parseRepoUrl(url: string): ParsedRepo | null {
     if (!match) {
       return null;
     }
-    const segments = [match[1], match[2]];
-    return { owner: segments[0], repo: segments[1] };
+    return { owner: match[1], repo: match[2] };
   } catch {
     return null;
   }
