@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { parseRepoUrl } from "../utils/parseRepoUrl";
+import { parseRepoUrl } from "../src/utils/parseRepoUrl";
 
 export default function Index() {
   const router = useRouter();

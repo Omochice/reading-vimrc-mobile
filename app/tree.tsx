@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import * as Clipboard from "expo-clipboard";
-import { useGitHubTree } from "../hooks/useGitHubTree";
-import { FileTree } from "../components/FileTree";
-import { buildCommand } from "../utils/buildCommand";
-import type { TreeNode } from "../types";
+import { useGitHubTree } from "../src/hooks/useGitHubTree";
+import { FileTree } from "../src/components/FileTree";
+import { buildCommand } from "../src/utils/buildCommand";
+import type { TreeNode } from "../src/types";
 
 /**
  * Collect file paths in DFS order so the command matches the visual tree order.
