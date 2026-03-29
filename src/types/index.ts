@@ -1,31 +1,31 @@
 export type NodeType = "file" | "directory";
 
-export interface TreeNode {
+export type TreeNode = {
   name: string;
   path: string;
   type: NodeType;
   children: TreeNode[];
-}
+};
 
 /** Response from GET /repos/{owner}/{repo} */
-export interface RepoResponse {
+export type RepoResponse = {
   default_branch: string;
-}
+};
 
 /** Single item in the tree array from GET /repos/{owner}/{repo}/git/trees/{branch}?recursive=1 */
-export interface GitTreeItem {
+export type GitTreeItem = {
   path: string;
   mode: string;
   type: "blob" | "tree";
   sha: string;
   size?: number;
   url: string;
-}
+};
 
 /** Response from GET /repos/{owner}/{repo}/git/trees/{branch}?recursive=1 */
-export interface GitTreeResponse {
+export type GitTreeResponse = {
   sha: string;
   url: string;
   tree: GitTreeItem[];
   truncated: boolean;
-}
+};
