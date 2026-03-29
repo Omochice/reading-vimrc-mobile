@@ -12,15 +12,9 @@ interface TreeNodeProps {
   checkState: CheckState;
   onToggleSelect: (node: TreeNodeType) => void;
   onToggleCollapse: (path: string) => void;
-  /** Render function for child nodes provided by the parent FileTree. */
   renderNode: (node: TreeNodeType, depth: number) => React.ReactNode;
 }
 
-/**
- * Renders a single tree node with depth-based indentation.
- * Directories show a collapse icon and their name is tappable.
- * Files show only their name and a checkbox.
- */
 export function TreeNode({
   node,
   depth,

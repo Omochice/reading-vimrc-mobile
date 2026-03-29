@@ -9,14 +9,11 @@ interface TriStateCheckboxProps {
 }
 
 const SYMBOL: Record<CheckState, string> = {
-  unchecked: "\u2610", // empty box
-  checked: "\u2611", // box with checkmark
-  indeterminate: "\u229F", // box with hyphen (squared minus)
+  unchecked: "\u2610",
+  checked: "\u2611",
+  indeterminate: "\u229F",
 };
 
-/**
- * A simple tri-state checkbox rendered as a Unicode symbol.
- */
 export function TriStateCheckbox({ state, onPress }: TriStateCheckboxProps) {
   return (
     <Pressable onPress={onPress} style={styles.container}>
